@@ -1,4 +1,3 @@
-// client/network/TCPClient.java
 package client.network;
 
 import java.io.*;
@@ -78,7 +77,6 @@ public class TCPClient {
         return responses;
     }
 
-    // ⭐⭐ الـGetters المهمة ⭐⭐
     public BufferedReader getReader() { return reader; }
     public PrintWriter getWriter() { return writer; }
     public boolean isConnected() { return socket != null && socket.isConnected() && !socket.isClosed(); }

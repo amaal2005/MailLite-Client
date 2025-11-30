@@ -17,6 +17,5 @@ public class Main {
             new LoginWindow().setVisible(true);
         });
 
-        System.out.println("✅ GUI Started Successfully!");
     }
 }

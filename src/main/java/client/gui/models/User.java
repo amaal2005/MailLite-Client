@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
     private String username;
-    private String status; // ACTIVE, BUSY, AWAY
+    private String status;
     private String ip;
     private Date lastSeen;
 
@@ -17,7 +17,6 @@ public class User {
         this.lastSeen = lastSeen;
     }
 
-    // Getters and Setters
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 

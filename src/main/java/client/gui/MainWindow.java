@@ -1,5 +1,7 @@
+// client/gui/MainWindow.java
 package client.gui;
 
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -8,7 +10,7 @@ import client.controller.ClientController;
 import client.gui.models.Message;
 import client.utils.Logger;
 import java.io.*;
-import java.util.*; // ⬅️ استيراد واحد للـ util
+import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -43,23 +45,98 @@ public class MainWindow extends JFrame {
     private JLabel statusLabel;
     private JComboBox<String> statusComboBox;
 
-    // عشان نتذكر أي رسالة اتفتحت خلاص - مع حفظ على الديسك
-    private final Set<String> readMessageIds = new HashSet<>(); // ⬅️ استخدام Set مباشرة
+    // نظام تتبع النشاط لـ Auto-Away
+    private Timer idleTimer;
+    private Timer autoRefreshTimer;
+    private static final int IDLE_TIMEOUT = 30000; // 30 ثانية
+
+    private final Set<String> readMessageIds = new HashSet<>();
     private static final String READ_MESSAGES_FILE = "read_messages.dat";
 
     public MainWindow(ClientController controller) {
         this.controller = controller;
         this.logger = new Logger();
-        loadReadMessages(); // تحميل الرسائل المقروءة من الديسك
+        loadReadMessages();
         initializeGUI();
+        setupActivityTracking();
     }
 
-    // دالة تحميل الرسائل المقروءة من الديسك
+    // نظام تتبع النشاط لـ Auto-Away
+    private void setupActivityTracking() {
+        idleTimer = new Timer(IDLE_TIMEOUT, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!statusComboBox.getSelectedItem().equals("Away")) {
+                    System.out.println("Auto-Away activated after 30 seconds of inactivity");
+                    statusComboBox.setSelectedItem("Away");
+                    logger.log("Auto-Away activated due to inactivity");
+                }
+            }
+        });
+        idleTimer.setRepeats(false);
+
+        ActivityListener activityListener = new ActivityListener();
+
+        addMouseListener(activityListener);
+        addMouseMotionListener(activityListener);
+        addKeyListener(activityListener);
+
+        toField.addKeyListener(activityListener);
+        subjectField.addKeyListener(activityListener);
+        composeArea.addKeyListener(activityListener);
+        searchField.addKeyListener(activityListener);
+
+        folderList.addMouseListener(activityListener);
+        messagesTable.addMouseListener(activityListener);
+        onlineUsersList.addMouseListener(activityListener);
+
+        resetIdleTimer();
+    }
+
+    private void resetIdleTimer() {
+        if (idleTimer != null) {
+            idleTimer.stop();
+            idleTimer.start();
+
+            if (statusComboBox.getSelectedItem().equals("Away")) {
+                statusComboBox.setSelectedItem("Active");
+                System.out.println("User active - status reset to Active");
+            }
+        }
+    }
+
+    private class ActivityListener extends MouseAdapter implements KeyListener {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            resetIdleTimer();
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            resetIdleTimer();
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            resetIdleTimer();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            resetIdleTimer();
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            resetIdleTimer();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private void loadReadMessages() {
         File file = new File(READ_MESSAGES_FILE);
         if (!file.exists()) {
-            System.out.println("📂 No read messages file found - starting fresh");
+            System.out.println("No read messages file found - starting fresh");
             return;
         }
 
@@ -67,24 +144,23 @@ public class MainWindow extends JFrame {
             Set<String> loaded = (Set<String>) ois.readObject();
             readMessageIds.clear();
             readMessageIds.addAll(loaded);
-            System.out.println("✅ Loaded " + readMessageIds.size() + " read messages from disk");
+            System.out.println("Loaded " + readMessageIds.size() + " read messages from disk");
         } catch (Exception e) {
-            System.out.println("❌ Failed to load read messages: " + e.getMessage());
+            System.out.println("Failed to load read messages: " + e.getMessage());
         }
     }
 
-    // دالة حفظ الرسائل المقروءة على الديسك
     private void saveReadMessages() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(READ_MESSAGES_FILE))) {
             oos.writeObject(readMessageIds);
-            System.out.println("💾 Saved " + readMessageIds.size() + " read messages to disk");
+            System.out.println("Saved " + readMessageIds.size() + " read messages to disk");
         } catch (IOException e) {
-            System.err.println("❌ Failed to save read messages: " + e.getMessage());
+            System.err.println("Failed to save read messages: " + e.getMessage());
         }
     }
 
     private void initializeGUI() {
-        setTitle("📧 MailLite - " + controller.getUsername());
+        setTitle("MailLite - " + controller.getUsername());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
@@ -104,6 +180,9 @@ public class MainWindow extends JFrame {
                 Toolkit.getDefaultToolkit().beep();
                 statusLabel.setForeground(Color.RED);
                 statusLabel.setText("NEW MAIL! " + count + " unread message(s)");
+
+                resetIdleTimer();
+
                 new Timer(5000, e -> {
                     statusLabel.setForeground(Color.BLACK);
                     updateStatusBar();
@@ -121,16 +200,13 @@ public class MainWindow extends JFrame {
     }
 
     private void createComponents() {
-        // Left Panel - Folders and Online Users
-        String[] folders = {"📥 Inbox", "📤 Sent", "📦 Archive"};
+        String[] folders = {"Inbox", "Sent", "Archive"};
         folderList = new JList<>(folders);
         folderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         folderList.setSelectedIndex(0);
 
-        // Online users list
         onlineUsersList = new JList<>(new DefaultListModel<>());
 
-        // Center Panel - Messages and Content
         String[] columnNames = {"From", "Subject", "Date", "Status", "ID"};
 
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
@@ -144,7 +220,6 @@ public class MainWindow extends JFrame {
         messagesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         messagesTable.getTableHeader().setReorderingAllowed(false);
 
-        // إخفاء عمود ID
         TableColumn idColumn = messagesTable.getColumnModel().getColumn(4);
         idColumn.setMinWidth(0);
         idColumn.setMaxWidth(0);
@@ -160,26 +235,23 @@ public class MainWindow extends JFrame {
         searchField = new JTextField(20);
         searchField.setToolTipText("Search messages...");
 
-        // Right Panel - Compose
         toField = new JTextField();
+        toField.setToolTipText("Enter single recipient or multiple separated by commas (user1,user2,user3)");
         subjectField = new JTextField();
         composeArea = new JTextArea();
         composeArea.setLineWrap(true);
         composeArea.setWrapStyleWord(true);
 
-        // Status Bar
         statusLabel = new JLabel();
-        String[] statusOptions = {"🟢 Active", "🔴 Busy", "🟡 Away"};
+        String[] statusOptions = {"Active", "Busy", "Away"};
         statusComboBox = new JComboBox<>(statusOptions);
     }
 
     private void layoutComponents() {
         setLayout(new BorderLayout());
 
-        // Top Menu Bar
         add(createMenuBar(), BorderLayout.NORTH);
 
-        // Main Content - Split Panes
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         mainSplitPane.setLeftComponent(createLeftPanel());
         mainSplitPane.setRightComponent(createCenterRightSplitPane());
@@ -187,7 +259,6 @@ public class MainWindow extends JFrame {
 
         add(mainSplitPane, BorderLayout.CENTER);
 
-        // Bottom Status Bar
         add(createStatusBar(), BorderLayout.SOUTH);
     }
 
@@ -221,19 +292,17 @@ public class MainWindow extends JFrame {
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftPanel.setPreferredSize(new Dimension(250, 0));
 
-        // Folders Panel
         JPanel foldersPanel = new JPanel(new BorderLayout());
-        foldersPanel.setBorder(BorderFactory.createTitledBorder("📁 Folders"));
+        foldersPanel.setBorder(BorderFactory.createTitledBorder("Folders"));
         foldersPanel.add(new JScrollPane(folderList), BorderLayout.CENTER);
 
-        // Online Users Panel
         JPanel usersPanel = new JPanel(new BorderLayout());
-        usersPanel.setBorder(BorderFactory.createTitledBorder("👥 Online Users"));
+        usersPanel.setBorder(BorderFactory.createTitledBorder("Online Users"));
 
         JPanel usersHeaderPanel = new JPanel(new BorderLayout());
         usersHeaderPanel.add(new JLabel("Online Users"), BorderLayout.WEST);
 
-        JButton refreshUsersBtn = new JButton("🔄");
+        JButton refreshUsersBtn = new JButton("Refresh");
         refreshUsersBtn.setToolTipText("Refresh online users");
         refreshUsersBtn.addActionListener(e -> loadOnlineUsers());
         usersHeaderPanel.add(refreshUsersBtn, BorderLayout.EAST);
@@ -262,7 +331,7 @@ public class MainWindow extends JFrame {
         rightPanel.setPreferredSize(new Dimension(300, 0));
 
         JPanel composePanel = new JPanel(new BorderLayout());
-        composePanel.setBorder(BorderFactory.createTitledBorder("✏️ Compose Message"));
+        composePanel.setBorder(BorderFactory.createTitledBorder("Compose Message"));
 
         JPanel composeForm = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -270,34 +339,33 @@ public class MainWindow extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        // To Field
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.2;
-        composeForm.add(new JLabel("To:"), gbc);
+        JLabel toLabel = new JLabel("To:");
+        toLabel.setToolTipText("Enter single recipient or multiple separated by commas");
+        composeForm.add(toLabel, gbc);
+
         gbc.gridx = 1; gbc.weightx = 0.8;
+        toField.setToolTipText("Example: user1 or user1,user2,user3");
         composeForm.add(toField, gbc);
 
-        // Subject Field
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.2;
         composeForm.add(new JLabel("Subject:"), gbc);
         gbc.gridx = 1; gbc.weightx = 0.8;
         composeForm.add(subjectField, gbc);
 
-        // Body Label
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         composeForm.add(new JLabel("Message:"), gbc);
 
-        // Body Text Area
         gbc.gridy = 3; gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         JScrollPane composeScroll = new JScrollPane(composeArea);
         composeScroll.setPreferredSize(new Dimension(280, 200));
         composeForm.add(composeScroll, gbc);
 
-        // Send Button
         gbc.gridy = 4; gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        sendButton = new JButton("📤 Send Message");
+        sendButton = new JButton("Send Message");
         sendButton.setBackground(new Color(34, 139, 34));
         sendButton.setForeground(Color.WHITE);
         sendButton.addActionListener(e -> sendMessage());
@@ -313,37 +381,30 @@ public class MainWindow extends JFrame {
         JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Search Panel مع زر Refresh واضح
         JPanel searchPanel = new JPanel(new BorderLayout(5, 5));
-        JButton logoutBtn = new JButton("🚪 Logout");
+        JButton logoutBtn = new JButton("Logout");
         logoutBtn.setForeground(Color.BLACK);
         logoutBtn.setFont(new Font("Arial", Font.BOLD, 12));
-        logoutBtn.setBackground(new Color(255, 100, 100)); // لون أحمر فاتح
+        logoutBtn.setBackground(new Color(255, 100, 100));
         logoutBtn.addActionListener(e -> logout());
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        leftPanel.add(new JLabel("🔍 Search:"));
+        leftPanel.add(new JLabel("Search:"));
         leftPanel.add(searchField);
 
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton searchButton = new JButton("Search");
-        searchButton.setBackground(new Color(52, 100, 100)); // لون أحمر فاتح
-
-
-
-
+        searchButton.setBackground(new Color(52, 100, 100));
         searchButton.addActionListener(e -> searchMessages());
         rightPanel.add(searchButton);
 
         rightPanel.add(logoutBtn);
 
-
         searchPanel.add(leftPanel, BorderLayout.WEST);
         searchPanel.add(rightPanel, BorderLayout.EAST);
 
-        // Messages Table
         JPanel messagesPanel = new JPanel(new BorderLayout());
-        messagesPanel.setBorder(BorderFactory.createTitledBorder("📨 Messages"));
+        messagesPanel.setBorder(BorderFactory.createTitledBorder("Messages"));
 
         JPanel messageButtonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton archiveBtn = new JButton("Archive");
@@ -358,12 +419,10 @@ public class MainWindow extends JFrame {
         messagesPanel.add(messageButtonsPanel, BorderLayout.NORTH);
         messagesPanel.add(new JScrollPane(messagesTable), BorderLayout.CENTER);
 
-        // Message Content
         JPanel contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBorder(BorderFactory.createTitledBorder("📝 Message Content"));
+        contentPanel.setBorder(BorderFactory.createTitledBorder("Message Content"));
         contentPanel.add(new JScrollPane(messageContentArea), BorderLayout.CENTER);
 
-        // Split between messages and content
         JSplitPane centerSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, messagesPanel, contentPanel);
         centerSplit.setDividerLocation(300);
 
@@ -374,11 +433,9 @@ public class MainWindow extends JFrame {
     }
 
     private void setupButtonsColor() {
-        // تغيير لون كل الأزرار في الواجهة
         UIManager.put("Button.foreground", Color.BLACK);
         UIManager.put("Button.font", new Font("Arial", Font.BOLD, 12));
 
-        // تحديث كل الأزرار الموجودة
         updateAllButtons(this.getContentPane());
     }
 
@@ -410,7 +467,6 @@ public class MainWindow extends JFrame {
     }
 
     private void setupEventListeners() {
-        // Folder selection
         folderList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedFolder = folderList.getSelectedValue();
@@ -419,14 +475,12 @@ public class MainWindow extends JFrame {
             }
         });
 
-        // Message selection
         messagesTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && messagesTable.getSelectedRow() != -1) {
                 displaySelectedMessage();
             }
         });
 
-        // Status change
         statusComboBox.addActionListener(e -> {
             String selectedStatus = (String) statusComboBox.getSelectedItem();
             if (selectedStatus != null) {
@@ -442,7 +496,6 @@ public class MainWindow extends JFrame {
     }
 
     private void setupKeyboardShortcuts() {
-        // Ctrl+N لكتابة رسالة جديدة
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke("ctrl N"), "compose");
         getRootPane().getActionMap().put("compose", new AbstractAction() {
@@ -453,7 +506,6 @@ public class MainWindow extends JFrame {
             }
         });
 
-        // Ctrl+F للبحث
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke("ctrl F"), "search");
         getRootPane().getActionMap().put("search", new AbstractAction() {
@@ -464,11 +516,7 @@ public class MainWindow extends JFrame {
                 logger.log("Keyboard shortcut: Ctrl+F - Search");
             }
         });
-
-
     }
-
-    // ========== دوال تحميل البيانات ==========
 
     private void loadRealData() {
         if (controller == null) return;
@@ -500,14 +548,14 @@ public class MainWindow extends JFrame {
                         String username = parts[0];
                         String status = parts[1].toUpperCase();
 
-                        String emoji = switch (status) {
+                        String statusText = switch (status) {
                             case "ACTIVE" -> "Active";
                             case "BUSY"   -> "Busy";
                             case "AWAY"   -> "Away";
                             default       -> "Unknown";
                         };
 
-                        model.addElement(emoji + " " + username);
+                        model.addElement(statusText + " " + username);
                     } else if (parts.length == 1 && !parts[0].startsWith("212")) {
                         model.addElement("Active " + parts[0]);
                     }
@@ -528,15 +576,6 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private String getStatusEmoji(String status) {
-        switch (status.toUpperCase()) {
-            case "ACTIVE": return "🟢";
-            case "BUSY": return "🔴";
-            case "AWAY": return "🟡";
-            default: return "⚪";
-        }
-    }
-
     private void loadCurrentFolderMessages() {
         if (controller == null) return;
 
@@ -547,13 +586,13 @@ public class MainWindow extends JFrame {
             List<Message> messages = new ArrayList<>();
 
             switch (selectedFolder) {
-                case "📥 Inbox":
+                case "Inbox":
                     messages = controller.getInboxMessages();
                     break;
-                case "📤 Sent":
+                case "Sent":
                     messages = controller.getSentMessages();
                     break;
-                case "📦 Archive":
+                case "Archive":
                     messages = controller.getArchivedMessages();
                     break;
             }
@@ -578,9 +617,8 @@ public class MainWindow extends JFrame {
                 String subject = (String) model.getValueAt(modelRow, 1);
                 String messageId = (String) model.getValueAt(modelRow, 4);
 
-                System.out.println("🔍 Displaying message - From: " + from + ", Subject: " + subject + ", ID: " + messageId);
+                System.out.println("Displaying message - From: " + from + ", Subject: " + subject + ", ID: " + messageId);
 
-                // جلب الرسالة الحقيقية من السيرفر باستخدام الـID
                 Message selectedMessage = controller.getMessage(messageId);
 
                 if (selectedMessage != null) {
@@ -591,7 +629,7 @@ public class MainWindow extends JFrame {
                 }
 
             } catch (Exception e) {
-                System.out.println("❌ Error displaying message: " + e.getMessage());
+                System.out.println("Error displaying message: " + e.getMessage());
                 messageContentArea.setText("Error loading message: " + e.getMessage());
             }
         }
@@ -607,7 +645,6 @@ public class MainWindow extends JFrame {
         }
 
         for (Message msg : messages) {
-            // الأولوية للذاكرة المحلية - لو الرسالة اتعرفت عندنا كـ مقروءة
             boolean isMessageRead = readMessageIds.contains(msg.getId()) || msg.isRead();
 
             String statusText = isMessageRead ? "Seen" : "New";
@@ -631,19 +668,17 @@ public class MainWindow extends JFrame {
             return;
         }
 
-        // نعلم الرسالة كمقروءة فورًا
         boolean wasNew = !readMessageIds.contains(msg.getId());
-        readMessageIds.add(msg.getId());  // نتذكرها إلى الأبد
-        saveReadMessages(); // حفظ فوري على الديسك
+        readMessageIds.add(msg.getId());
+        saveReadMessages();
 
-        // نخبر السيرفر إن الرسالة اتقرأت (إذا كانت جديدة)
         if (wasNew) {
             new Thread(() -> {
                 try {
                     controller.markMessageAsRead(msg.getId());
-                    System.out.println("✅ Marked message as read on server: " + msg.getId());
+                    System.out.println("Marked message as read on server: " + msg.getId());
                 } catch (Exception ex) {
-                    System.out.println("⚠️ Failed to mark message as read on server: " + ex.getMessage());
+                    System.out.println("Failed to mark message as read on server: " + ex.getMessage());
                 }
             }).start();
         }
@@ -668,7 +703,6 @@ public class MainWindow extends JFrame {
         messageContentArea.setText(content.toString());
         messageContentArea.setCaretPosition(0);
 
-        // نحدث الجدول فورًا عشان يبين "Seen"
         int viewRow = messagesTable.getSelectedRow();
         if (viewRow != -1) {
             int modelRow = messagesTable.convertRowIndexToModel(viewRow);
@@ -682,37 +716,36 @@ public class MainWindow extends JFrame {
         String selectedFolder = folderList.getSelectedValue();
         if (selectedFolder == null) return new ArrayList<>();
 
-        System.out.println("🔄 Getting messages for folder: " + selectedFolder);
+        System.out.println("Getting messages for folder: " + selectedFolder);
 
         try {
             List<Message> messages = new ArrayList<>();
 
             switch (selectedFolder) {
-                case "📥 Inbox":
+                case "Inbox":
                     messages = controller.getInboxMessages();
                     break;
-                case "📤 Sent":
+                case "Sent":
                     messages = controller.getSentMessages();
                     break;
-                case "📦 Archive":
+                case "Archive":
                     messages = controller.getArchivedMessages();
                     break;
             }
 
-            System.out.println("✅ Retrieved " + messages.size() + " messages from controller");
+            System.out.println("Retrieved " + messages.size() + " messages from controller");
             return messages;
 
         } catch (Exception e) {
-            System.out.println("❌ Error getting messages: " + e.getMessage());
+            System.out.println("Error getting messages: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
-    // ========== دوال التحكم بالرسائل ==========
     private void archiveSelectedMessage() {
         int viewRow = messagesTable.getSelectedRow();
         if (viewRow == -1) {
-            JOptionPane.showMessageDialog(this, "اختاري رسالة الأول", "تحذير", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a message first", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -724,18 +757,18 @@ public class MainWindow extends JFrame {
             String response = controller.getTcpClient().sendCommand("DELE " + messageId.trim());
 
             if (response.startsWith("250")) {
-                JOptionPane.showMessageDialog(this, "تم أرشفة الرسالة بنجاح", "تم", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Message archived successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                 model.removeRow(modelRow);
-                messageContentArea.setText("تم نقل الرسالة إلى الأرشيف بنجاح");
+                messageContentArea.setText("Message moved to archive successfully");
 
                 if (folderList.getSelectedValue().contains("Inbox")) {
                     loadCurrentFolderMessages();
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "فشل الأرشفة:\n" + response, "خطأ", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Archive failed:\n" + response, "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "خطأ: " + ex.getMessage(), "فشل", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -751,25 +784,24 @@ public class MainWindow extends JFrame {
             String response = controller.getTcpClient().sendCommand("RESTORE " + messageId.trim());
 
             if (response.startsWith("250")) {
-                JOptionPane.showMessageDialog(this, "تم إعادة الرسالة إلى الوارد بنجاح", "تم", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Message restored to inbox successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                 model.removeRow(modelRow);
-                messageContentArea.setText("تم الاستعادة بنجاح");
+                messageContentArea.setText("Restore successful");
             } else {
-                JOptionPane.showMessageDialog(this, "فشل الاستعادة:\n" + response, "خطأ", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Restore failed:\n" + response, "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "خطأ: " + ex.getMessage(), "فشل", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // ========== دوال التحديث ==========
     private void refreshAllData() {
         if (controller == null || !controller.isConnected()) {
             JOptionPane.showMessageDialog(this, "Not connected to server!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        System.out.println("💥 FORCE REFRESH - Reloading all data from server");
+        System.out.println("FORCE REFRESH - Reloading all data from server");
 
         JOptionPane.showMessageDialog(this, "Force refreshing data from server...", "Refreshing", JOptionPane.INFORMATION_MESSAGE);
 
@@ -785,17 +817,17 @@ public class MainWindow extends JFrame {
     }
 
     private void autoRefreshData() {
-        new Timer(8000, e -> {
+        autoRefreshTimer = new Timer(8000, e -> {
             if (controller != null && controller.isConnected() &&
                     folderList.getSelectedValue() != null &&
                     folderList.getSelectedValue().contains("Inbox")) {
 
                 loadCurrentFolderMessages();
             }
-        }).start();
+        });
+        autoRefreshTimer.start();
     }
 
-    // ========== دوال أخرى ==========
     private void searchMessages() {
         String searchText = searchField.getText().trim();
         if (!searchText.isEmpty()) {
@@ -821,7 +853,7 @@ public class MainWindow extends JFrame {
 
     private void sendMessage() {
         if (sendButton == null) {
-            System.err.println("❌ sendButton is null! Check initialization.");
+            System.err.println("sendButton is null! Check initialization.");
             return;
         }
 
@@ -830,57 +862,76 @@ public class MainWindow extends JFrame {
         String body = composeArea.getText().trim();
 
         if (to.isEmpty() || subject.isEmpty() || body.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "❌ Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        if (to.contains(",")) {
+            String[] recipients = to.split(",");
+            int validRecipients = 0;
+            for (String recipient : recipients) {
+                if (!recipient.trim().isEmpty()) {
+                    validRecipients++;
+                }
+            }
+
+            if (validRecipients == 0) {
+                JOptionPane.showMessageDialog(this, "Please enter valid recipient(s)!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            System.out.println("Sending to " + validRecipients + " recipient(s): " + to);
+        }
+
         sendButton.setEnabled(false);
-        sendButton.setText("⏳ Sending...");
+        sendButton.setText("Sending...");
+
+        resetIdleTimer();
 
         new Thread(() -> {
             try {
-                System.out.println("📤 Starting message send process...");
+                System.out.println("Starting message send process...");
                 controller.sendMessage(to, subject, body);
 
                 SwingUtilities.invokeLater(() -> {
                     JOptionPane.showMessageDialog(MainWindow.this,
-                            "✅ Message sent successfully!\nTo: " + to + "\nSubject: " + subject,
+                            "Message sent successfully!\nTo: " + to + "\nSubject: " + subject,
                             "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     toField.setText("");
                     subjectField.setText("");
                     composeArea.setText("");
 
-                    // ⭐⭐ تحديث فوري بعد الإرسال ⭐⭐
-                    System.out.println("🔄 Auto-refreshing after send...");
-                    loadCurrentFolderMessages(); // تحديث الـ Sent folder
+                    System.out.println("Auto-refreshing after send...");
+                    loadCurrentFolderMessages();
                 });
 
             } catch (Exception e) {
-            SwingUtilities.invokeLater(() -> {
-                String errorMessage = e.getMessage();
-                if (errorMessage.contains("Not connected")) {
-                    errorMessage = "❌ Connection Lost!\n\n" +
-                            "Please:\n" +
-                            "1. Check if server is running\n" +
-                            "2. Logout and login again\n" +
-                            "3. Make sure port 1234 is available";
-                }
+                SwingUtilities.invokeLater(() -> {
+                    String errorMessage = e.getMessage();
+                    if (errorMessage.contains("Not connected")) {
+                        errorMessage = "Connection Lost!\n\n" +
+                                "Please:\n" +
+                                "1. Check if server is running\n" +
+                                "2. Logout and login again\n" +
+                                "3. Make sure port 1234 is available";
+                    }
 
-                JOptionPane.showMessageDialog(MainWindow.this,
-                        errorMessage,
-                        "Send Failed", JOptionPane.ERROR_MESSAGE);
-            });
+                    JOptionPane.showMessageDialog(MainWindow.this,
+                            errorMessage,
+                            "Send Failed", JOptionPane.ERROR_MESSAGE);
+                });
             } finally {
                 SwingUtilities.invokeLater(() -> {
                     if (sendButton != null) {
                         sendButton.setEnabled(true);
-                        sendButton.setText("📤 Send Message");
+                        sendButton.setText("Send Message");
                     }
                 });
             }
         }).start();
     }
+
     private void exportConversation() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Export Conversation");
@@ -990,7 +1041,13 @@ public class MainWindow extends JFrame {
 
     @Override
     public void dispose() {
-        // حفظ الرسائل المقروءة قبل الإغلاق
+        if (idleTimer != null) {
+            idleTimer.stop();
+        }
+        if (autoRefreshTimer != null) {
+            autoRefreshTimer.stop();
+        }
+
         saveReadMessages();
 
         if (!composeArea.getText().trim().isEmpty()) {

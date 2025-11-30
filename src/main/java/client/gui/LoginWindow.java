@@ -23,7 +23,7 @@ public class LoginWindow extends JFrame {
     }
 
     private void initializeGUI() {
-        setTitle("📧 MailLite - Client Login");
+        setTitle("MailLite - Client Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 400);
         setLocationRelativeTo(null);
@@ -45,7 +45,7 @@ public class LoginWindow extends JFrame {
         String[] udpPorts = {"5555", "5556", "5557", "5558", "5559"};
         udpPortComboBox = new JComboBox<>(udpPorts);
 
-        loginButton = new JButton("🚀 Login to Mail Server");
+        loginButton = new JButton("Login to Mail Server");
         styleLoginButton();
     }
 
@@ -62,7 +62,7 @@ public class LoginWindow extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.WHITE);
 
-        JLabel titleLabel = new JLabel("📧 MailLite Client", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("MailLite Client", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(new Color(70, 130, 180));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
@@ -77,17 +77,17 @@ public class LoginWindow extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        addFormField(formPanel, gbc, 0, "🌐 Server Host:", serverHostField);
-        addFormField(formPanel, gbc, 1, "🔌 TCP Port:", serverPortField);
+        addFormField(formPanel, gbc, 0, "Server Host:", serverHostField);
+        addFormField(formPanel, gbc, 1, "TCP Port:", serverPortField);
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.3;
-        formPanel.add(new JLabel("📡 UDP Port:"), gbc);
+        formPanel.add(new JLabel("UDP Port:"), gbc);
 
         gbc.gridx = 1; gbc.weightx = 0.7;
         formPanel.add(udpPortComboBox, gbc);
 
-        addFormField(formPanel, gbc, 3, "👤 Username:", usernameField);
-        addFormField(formPanel, gbc, 4, "🔑 Password:", passwordField);
+        addFormField(formPanel, gbc, 3, "Username:", usernameField);
+        addFormField(formPanel, gbc, 4, "Password:", passwordField);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
         mainPanel.add(loginButton, BorderLayout.SOUTH);
@@ -140,8 +140,7 @@ public class LoginWindow extends JFrame {
             loginButton.setText("Connecting...");
             loginButton.setEnabled(false);
 
-            // ⭐⭐ اختبار الاتصال أولاً قبل Login ⭐⭐
-            System.out.println("🔗 Testing connection to " + host + ":" + tcpPort + "...");
+            System.out.println("Testing connection to " + host + ":" + tcpPort + "...");
 
             ClientController controller = new ClientController();
             boolean success = controller.login(host, tcpPort, username, password, udpPort);
@@ -171,7 +170,7 @@ public class LoginWindow extends JFrame {
     }
 
     private void resetLoginButton() {
-        loginButton.setText("🚀 Login to Mail Server");
+        loginButton.setText("Login to Mail Server");
         loginButton.setEnabled(true);
     }
 
