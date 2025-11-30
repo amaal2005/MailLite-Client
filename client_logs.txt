@@ -15161,3 +15161,500 @@
 [٢٠٢٥-١١-٢٨ ٢٠:١٠:٤٧] Loaded 0 messages from 📥 Inbox
 [٢٠٢٥-١١-٢٨ ٢٠:١٠:٤٨] Loaded 0 messages from 📥 Inbox
 [٢٠٢٥-١١-٣٠ ٢٠:٥٤:٢٠] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٤٠:٥٢] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٤٠:٥٥] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٤٠:٥٩] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٠٧] ERROR: Login failed! Check:
+1. Server is running
+2. Correct host and port
+3. Network connection
+[٢٠٢٥-١١-٣٠ ٢١:٤١:١٣] User amaal logged in successfully
+[٢٠٢٥-١١-٣٠ ٢١:٤١:١٣] Login successful - Opening main window
+[٢٠٢٥-١١-٣٠ ٢١:٤١:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:١٤] Main window opened for user: amaal
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٢٥] User q logged in successfully
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٢٥] Login successful - Opening main window
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٢٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٢٦] Main window opened for user: q
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٤] User w logged in successfully
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٤] Login successful - Opening main window
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٥] Main window opened for user: w
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٤٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٤٦] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٤٦] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٧] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٧] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤١:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٠٥] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٠٥] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٠٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:١٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:١٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:١٧] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:١٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٢٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٢٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٣٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٣٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٤٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٤٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٤٨] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٤٨] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٥٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٥٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٢:٥٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٠٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٠٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٠٨] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:١٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:١٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٢٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٨] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٣٨] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٤٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٥٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٥٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٣:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٠٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:١٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:١٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:١٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٢٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٢٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٣٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٣٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٤٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٤٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٥٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٥٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٤:٥٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٠٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٠٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:١٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:١٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٢٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٣٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٤٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٥٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٥٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٥:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٠٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:١٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:١٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:١٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٢٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٢٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٣٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٣٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٤٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٤٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٥٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٥٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٦:٥٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٠٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٠٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:١٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:١٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٢٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٣٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٤٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٥٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٥٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٧:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٠٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:١٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:١٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:١٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٢٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٢٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٣٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٣٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٤٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٤٦] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٥٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٥٤] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٨:٥٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٠٢] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٠٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:١٠] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:١٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٤٩:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:١٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:١٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٢٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٤٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٥٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٥٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٠:٥٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٠٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٠٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:١١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:١٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:١٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٢٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٢٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٣٠] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٣٥] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٣٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٣٨] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٤٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٤٦] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٥١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٥٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥١:٥٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٢] SEND SUCCESS - ID: msg_1764532322968_26 To: q,amaal
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٣] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٣] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٠٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٥] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:١٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٣] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٢٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣١] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٢] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٣] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٣] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٣] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٣] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٤] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٥] Loaded 5 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٥] Folder selected: Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٥] Loaded 6 messages from Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٦] Folder selected: Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٦] Loaded 5 messages from Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٧] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٧] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٨] Folder selected: Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٨] Loaded 6 messages from Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٣٩] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٤] Folder selected: Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٤] Loaded 5 messages from Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٥] Folder selected: Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٧] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٧] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٨] Folder selected: Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٨] Loaded 0 messages from Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٩] Folder selected: Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٤٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٣] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٣] Folder selected: Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٣] Loaded 1 messages from Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٢:٥٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٤] Folder selected: Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٤] Loaded 0 messages from Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٦] Folder selected: Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٦] Loaded 1 messages from Sent
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Folder selected: Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Folder selected: Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٨] Loaded 0 messages from Archive
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٠٩] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٠] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] User logging out
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] LOGOUT - User: w
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١١] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٢] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٣] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٤] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٥] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٦] Status changed to: AWAY
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٦] Auto-Away activated due to inactivity
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٦] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٧] Loaded 1 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٨] User logging out
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٨] LOGOUT - User: q
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٨] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٨] Loaded 0 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:١٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٠] Status changed to: ACTIVE
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٢] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٣] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٤] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٥] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٦] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٧] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٨] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٩] Searching for: tt
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٢٩] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٠] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣١] Loaded 6 messages from Inbox
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٢] User logging out
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٢] LOGOUT - User: amaal
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٢] Login window initialized
+[٢٠٢٥-١١-٣٠ ٢١:٥٣:٣٢] Loaded 0 messages from Inbox
