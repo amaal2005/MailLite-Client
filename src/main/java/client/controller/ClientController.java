@@ -1,4 +1,3 @@
-// client/controller/ClientController.java
 package client.controller;
 
 import client.gui.models.Message;
@@ -38,6 +37,7 @@ public class ClientController {
 
             if (!tcpClient.connect()) {
                 System.out.println("TCP Connection failed");
+                logger.logAuth("CONNECT", "FAILED to " + host + ":" + tcpPort);
                 return false;
             }
 
@@ -48,6 +48,7 @@ public class ClientController {
 
             if (heloResponse == null || !heloResponse.startsWith("250")) {
                 System.out.println("HELO failed: " + heloResponse);
+                logger.logAuth("HELO", "FAILED: " + heloResponse);
                 return false;
             }
 
@@ -58,18 +59,21 @@ public class ClientController {
 
             if (authResponse == null || !authResponse.startsWith("235")) {
                 System.out.println("AUTH failed: " + authResponse);
+                logger.logAuth("AUTH", "FAILED for user: " + username);
                 return false;
             }
 
             this.username = username;
+            logger.setUser(username);
+            logger.logAuth("LOGIN", "SUCCESS for user: " + username);
             startUDPListener(udpPort);
 
             System.out.println("Login successful for: " + username);
-            logger.log("User " + username + " logged in successfully");
             return true;
 
         } catch (Exception e) {
             System.out.println("Login error: " + e.getMessage());
+            logger.logError("LOGIN", e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -81,8 +85,14 @@ public class ClientController {
                 @Override
                 public void onNewMail(String username, int count) {
                     System.out.println("UDP Notification - User: " + username + ", Count: " + count);
+                    logger.logUdp("New mail for " + username + ": " + count + " messages");
+
                     if (notificationCallback != null) {
                         notificationCallback.onNewMail(username, count);
+                    }
+
+                    if (username.equals(ClientController.this.username)) {
+                        refreshUnreadCount();
                     }
                 }
             });
@@ -91,10 +101,31 @@ public class ClientController {
             udpThread.setDaemon(true);
             udpThread.start();
             System.out.println("UDP listener started on port " + udpPort);
+
         } catch (Exception e) {
             System.out.println("Failed to start UDP listener: " + e.getMessage());
+            logger.logError("UDP Listener", e.getMessage());
         }
     }
+
+    private void refreshUnreadCount() {
+        if (tcpClient != null && tcpClient.isConnected()) {
+            try {
+                List<String> responses = tcpClient.sendMultiLineCommand("LIST UNREAD");
+                if (responses != null && !responses.isEmpty()) {
+                    for (String response : responses) {
+                        if (response.startsWith("213 ")) {
+                            System.out.println("Unread messages: " + response);
+                            logger.log("Unread refresh: " + response);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                logger.logError("Refresh Unread", e.getMessage());
+            }
+        }
+    }
+
     public void sendMessage(String to, String subject, String body) {
         try {
             System.out.println("Attempting to send message...");
@@ -119,7 +150,6 @@ public class ClientController {
                 throw new Exception("SEND command failed: " + response1);
             }
 
-            // ⭐⭐ التحديث: دعم multiple recipients ⭐⭐
             String formattedTo = formatRecipients(to);
             String headers = "FROM:" + username + " TO:" + formattedTo + " SUBJ:" + subject + " BODYLEN:" + body.length();
 
@@ -142,14 +172,14 @@ public class ClientController {
             if (response3 != null && response3.startsWith("250")) {
                 String messageId = extractMessageId(response3);
                 System.out.println("Message sent successfully! ID: " + messageId);
-                logger.log("SEND SUCCESS - ID: " + messageId + " To: " + formattedTo);
+                logger.logSend(messageId, formattedTo, subject);
             } else {
                 throw new Exception("Message save failed: " + response3);
             }
 
         } catch (Exception e) {
             System.out.println("Send failed: " + e.getMessage());
-            logger.log("SEND FAILED - " + e.getMessage());
+            logger.logError("SEND", e.getMessage());
             throw new RuntimeException("Send failed: " + e.getMessage(), e);
         }
     }
@@ -159,7 +189,6 @@ public class ClientController {
             return "";
         }
 
-        // فصل المستلمين بفواصل وإزالة المسافات الزائدة
         String[] recipients = to.split(",");
         StringBuilder formatted = new StringBuilder();
 
@@ -175,6 +204,7 @@ public class ClientController {
 
         return formatted.toString();
     }
+
     private boolean attemptReconnect() {
         try {
             System.out.println("Attempting automatic reconnect...");
@@ -273,6 +303,7 @@ public class ClientController {
 
         } catch (Exception e) {
             System.out.println("Error getting " + folder + " messages: " + e.getMessage());
+            logger.logError("LIST " + folder, e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -306,6 +337,7 @@ public class ClientController {
 
                     } catch (Exception e) {
                         System.out.println("Parse error: " + e.getMessage());
+                        logger.logError("PARSE MESSAGE", e.getMessage());
                     }
                 }
             }
@@ -358,10 +390,12 @@ public class ClientController {
 
             msg.setBody(bodyBuilder.toString().trim());
             System.out.println("Retrieved FULL message: " + msg.getSubject());
+            logger.logRetr(messageId, true);
             return msg;
 
         } catch (Exception e) {
             System.out.println("Error getting message: " + e.getMessage());
+            logger.logRetr(messageId, false);
             return null;
         }
     }
@@ -382,10 +416,12 @@ public class ClientController {
             }
 
             System.out.println("Retrieved " + onlineUsers.size() + " online users from server");
+            logger.logWho("UPDATE", onlineUsers.size());
             return onlineUsers;
 
         } catch (Exception e) {
             System.out.println("Error getting online users: " + e.getMessage());
+            logger.logError("WHO", e.getMessage());
             List<String> fallbackUsers = new ArrayList<>();
             fallbackUsers.add("alice ACTIVE 127.0.0.1 " + System.currentTimeMillis());
             fallbackUsers.add("bob ACTIVE 127.0.0.1 " + (System.currentTimeMillis() - 60000));
@@ -399,6 +435,7 @@ public class ClientController {
             throw new Exception("Server refused to mark message as read: " + response);
         }
         System.out.println("Marked message as read: " + messageId);
+        logger.log("Marked as read: " + messageId);
     }
 
     public boolean archiveMessage(String messageId) {
@@ -406,9 +443,11 @@ public class ClientController {
             String response = tcpClient.sendCommand("DELE " + messageId);
             boolean success = response != null && response.startsWith("250");
             System.out.println("Archive " + (success ? "successful" : "failed") + " for: " + messageId);
+            logger.logArchive(messageId, success, "ARCHIVE");
             return success;
         } catch (Exception e) {
             System.out.println("Error archiving message: " + e.getMessage());
+            logger.logError("ARCHIVE", e.getMessage());
             return false;
         }
     }
@@ -418,9 +457,11 @@ public class ClientController {
             String response = tcpClient.sendCommand("RESTORE " + messageId);
             boolean success = response != null && response.startsWith("250");
             System.out.println("Restore " + (success ? "successful" : "failed") + " for: " + messageId);
+            logger.logArchive(messageId, success, "RESTORE");
             return success;
         } catch (Exception e) {
             System.out.println("Error restoring message: " + e.getMessage());
+            logger.logError("RESTORE", e.getMessage());
             return false;
         }
     }
@@ -428,9 +469,12 @@ public class ClientController {
     public void setStatus(String status) {
         try {
             String response = tcpClient.sendCommand("SETSTAT " + status);
-            System.out.println("Status update: " + (response != null && response.startsWith("250") ? "success" : "failed"));
+            boolean success = response != null && response.startsWith("250");
+            System.out.println("Status update: " + (success ? "success" : "failed"));
+            logger.log("Status changed to: " + status + " - " + (success ? "SUCCESS" : "FAILED"));
         } catch (Exception e) {
             System.out.println("Error setting status: " + e.getMessage());
+            logger.logError("SETSTAT", e.getMessage());
         }
     }
 
@@ -441,6 +485,7 @@ public class ClientController {
             return stats != null ? stats : "211 M:0 S:0 U:0";
         } catch (Exception e) {
             System.out.println("Error getting stats: " + e.getMessage());
+            logger.logError("STAT", e.getMessage());
             return "211 M:0 S:0 U:0";
         }
     }
@@ -453,6 +498,7 @@ public class ClientController {
             }
         } catch (Exception e) {
             System.out.println("Error sending QUIT: " + e.getMessage());
+            logger.logError("QUIT", e.getMessage());
         }
 
         if (tcpClient != null) {

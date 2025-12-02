@@ -1,4 +1,3 @@
-// client/gui/MainWindow.java
 package client.gui;
 
 import java.awt.event.*;
@@ -17,6 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,28 +27,23 @@ public class MainWindow extends JFrame {
     private ClientController controller;
     private Logger logger;
 
-    // Left Panel Components
     private JList<String> folderList;
     private JList<String> onlineUsersList;
-    // Center Panel Components
     private JTable messagesTable;
     private JTextArea messageContentArea;
     private JTextField searchField;
-
-    // Right Panel Components
     private JTextField toField;
     private JTextField subjectField;
     private JTextArea composeArea;
     private JButton sendButton;
-
-    // Status Bar
     private JLabel statusLabel;
     private JComboBox<String> statusComboBox;
 
-    // نظام تتبع النشاط لـ Auto-Away
-    private Timer idleTimer;
+    private Timer autoAwayTimer;
     private Timer autoRefreshTimer;
-    private static final int IDLE_TIMEOUT = 30000; // 30 ثانية
+    private Timer statusUpdateTimer;
+    private static final int AUTO_AWAY_TIMEOUT = 30000;
+    private static final int STATUS_UPDATE_INTERVAL = 10000;
 
     private final Set<String> readMessageIds = new HashSet<>();
     private static final String READ_MESSAGES_FILE = "read_messages.dat";
@@ -61,46 +56,59 @@ public class MainWindow extends JFrame {
         setupActivityTracking();
     }
 
-    // نظام تتبع النشاط لـ Auto-Away
     private void setupActivityTracking() {
-        idleTimer = new Timer(IDLE_TIMEOUT, new ActionListener() {
+        autoAwayTimer = new Timer(AUTO_AWAY_TIMEOUT, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!statusComboBox.getSelectedItem().equals("Away")) {
-                    System.out.println("Auto-Away activated after 30 seconds of inactivity");
-                    statusComboBox.setSelectedItem("Away");
-                    logger.log("Auto-Away activated due to inactivity");
+                if (controller != null && controller.isConnected()) {
+                    String currentStatus = (String) statusComboBox.getSelectedItem();
+                    if (!"Away".equals(currentStatus)) {
+                        System.out.println("Auto-Away activated after 30 seconds of inactivity");
+                        setStatus("Away");
+                        logger.log("Auto-Away activated due to inactivity");
+                    }
                 }
             }
         });
-        idleTimer.setRepeats(false);
+        autoAwayTimer.setRepeats(false);
+        autoAwayTimer.start();
 
-        ActivityListener activityListener = new ActivityListener();
+        statusUpdateTimer = new Timer(STATUS_UPDATE_INTERVAL, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (controller != null && controller.isConnected()) {
+                    loadOnlineUsers();
+                    updateStatusBar();
+                }
+            }
+        });
+        statusUpdateTimer.start();
 
-        addMouseListener(activityListener);
-        addMouseMotionListener(activityListener);
-        addKeyListener(activityListener);
-
-        toField.addKeyListener(activityListener);
-        subjectField.addKeyListener(activityListener);
-        composeArea.addKeyListener(activityListener);
-        searchField.addKeyListener(activityListener);
-
-        folderList.addMouseListener(activityListener);
-        messagesTable.addMouseListener(activityListener);
-        onlineUsersList.addMouseListener(activityListener);
-
-        resetIdleTimer();
+        setupGlobalActivityListeners();
     }
 
-    private void resetIdleTimer() {
-        if (idleTimer != null) {
-            idleTimer.stop();
-            idleTimer.start();
+    private void setupGlobalActivityListeners() {
+        ActivityListener activityListener = new ActivityListener();
+        addActivityListenerToAll(this.getContentPane(), activityListener);
+    }
 
-            if (statusComboBox.getSelectedItem().equals("Away")) {
-                statusComboBox.setSelectedItem("Active");
-                System.out.println("User active - status reset to Active");
+    private void addActivityListenerToAll(Container container, ActivityListener listener) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof Container) {
+                addActivityListenerToAll((Container) comp, listener);
+            }
+
+            if (comp instanceof JTextComponent) {
+                comp.addKeyListener(listener);
+            } else if (comp instanceof AbstractButton) {
+                comp.addMouseListener(listener);
+            } else if (comp instanceof JList) {
+                comp.addMouseListener(listener);
+            } else if (comp instanceof JTable) {
+                comp.addMouseListener(listener);
+            } else if (comp instanceof JScrollPane) {
+                comp.addMouseListener(listener);
+                comp.addMouseMotionListener(listener);
             }
         }
     }
@@ -108,27 +116,51 @@ public class MainWindow extends JFrame {
     private class ActivityListener extends MouseAdapter implements KeyListener {
         @Override
         public void mousePressed(MouseEvent e) {
-            resetIdleTimer();
+            resetActivityTimers();
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            resetIdleTimer();
+            resetActivityTimers();
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            resetIdleTimer();
+            resetActivityTimers();
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            resetIdleTimer();
+            resetActivityTimers();
         }
 
         @Override
         public void keyTyped(KeyEvent e) {
-            resetIdleTimer();
+            resetActivityTimers();
+        }
+    }
+
+    private void resetActivityTimers() {
+        if (autoAwayTimer != null) {
+            autoAwayTimer.restart();
+        }
+
+        String currentStatus = (String) statusComboBox.getSelectedItem();
+        if ("Away".equals(currentStatus) && controller != null && controller.isConnected()) {
+            setStatus("Active");
+            System.out.println("User active - status reset to Active");
+        }
+    }
+
+    private void setStatus(String status) {
+        if (controller != null && controller.isConnected()) {
+            try {
+                controller.setStatus(status.toUpperCase());
+                statusComboBox.setSelectedItem(status);
+                logger.log("Status changed to: " + status);
+            } catch (Exception e) {
+                logger.log("Error setting status: " + e.getMessage());
+            }
         }
     }
 
@@ -165,6 +197,34 @@ public class MainWindow extends JFrame {
         setSize(1200, 800);
         setLocationRelativeTo(null);
 
+        // إنشاء القائمة العلوية
+        JMenuBar menuBar = new JMenuBar();
+
+        // قائمة File
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem exportItem = new JMenuItem("Export Conversation...");
+        JMenuItem logoutItem = new JMenuItem("Logout");
+
+        exportItem.addActionListener(e -> exportConversation());
+        logoutItem.addActionListener(e -> logout());
+
+        fileMenu.add(exportItem);
+        fileMenu.addSeparator();
+        fileMenu.add(logoutItem);
+
+        // قائمة View
+        JMenu viewMenu = new JMenu("View");
+        JMenuItem refreshItem = new JMenuItem("Refresh");
+        refreshItem.addActionListener(e -> refreshAllData());
+        viewMenu.add(refreshItem);
+
+        // إضافة القوائم إلى الـ menu bar
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
+
+        // ⭐⭐ تعيين القائمة للنافذة ⭐⭐
+        setJMenuBar(menuBar);
+
         createComponents();
         layoutComponents();
         setupEventListeners();
@@ -175,13 +235,14 @@ public class MainWindow extends JFrame {
         updateStatusBar();
         autoRefreshData();
         setupButtonsColor();
+
         controller.setNotificationCallback((username, count) -> {
             if (username.equals(controller.getUsername())) {
                 Toolkit.getDefaultToolkit().beep();
                 statusLabel.setForeground(Color.RED);
                 statusLabel.setText("NEW MAIL! " + count + " unread message(s)");
 
-                resetIdleTimer();
+                resetActivityTimers();
 
                 new Timer(5000, e -> {
                     statusLabel.setForeground(Color.BLACK);
@@ -196,6 +257,7 @@ public class MainWindow extends JFrame {
                 })).start();
             }
         });
+
         logger.log("Main window opened for user: " + controller.getUsername());
     }
 
@@ -269,7 +331,9 @@ public class MainWindow extends JFrame {
         JMenuItem exportItem = new JMenuItem("Export Conversation...");
         JMenuItem logoutItem = new JMenuItem("Logout");
 
+        // ⭐ أضيف هذا السطر الناقص ⭐
         exportItem.addActionListener(e -> exportConversation());
+
         logoutItem.addActionListener(e -> logout());
 
         fileMenu.add(exportItem);
@@ -396,8 +460,17 @@ public class MainWindow extends JFrame {
         JButton searchButton = new JButton("Search");
         searchButton.setBackground(new Color(52, 100, 100));
         searchButton.addActionListener(e -> searchMessages());
-        rightPanel.add(searchButton);
 
+        // ⭐⭐⭐ زر Export جديد ⭐⭐⭐
+        JButton exportButton = new JButton("Export");
+        exportButton.setBackground(new Color(70, 130, 180)); // لون أزرق
+        exportButton.setForeground(Color.WHITE);
+        exportButton.setFont(new Font("Arial", Font.BOLD, 12));
+        exportButton.addActionListener(e -> exportConversation());
+        exportButton.setToolTipText("Export all messages to file");
+
+        rightPanel.add(searchButton);
+        rightPanel.add(exportButton); // ⭐⭐⭐ أضف الزر هنا
         rightPanel.add(logoutBtn);
 
         searchPanel.add(leftPanel, BorderLayout.WEST);
@@ -743,58 +816,145 @@ public class MainWindow extends JFrame {
     }
 
     private void archiveSelectedMessage() {
+        // الحصول على الصف المحدد في عرض الجدول
         int viewRow = messagesTable.getSelectedRow();
         if (viewRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a message first", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int modelRow = messagesTable.convertRowIndexToModel(viewRow);
-        DefaultTableModel model = (DefaultTableModel) messagesTable.getModel();
-        String messageId = (String) model.getValueAt(modelRow, 4);
-
         try {
-            String response = controller.getTcpClient().sendCommand("DELE " + messageId.trim());
+            // تحويل فهرس العرض إلى فهرس الموديل
+            int modelRow = messagesTable.convertRowIndexToModel(viewRow);
+            DefaultTableModel model = (DefaultTableModel) messagesTable.getModel();
 
-            if (response.startsWith("250")) {
-                JOptionPane.showMessageDialog(this, "Message archived successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            // التأكد من أن الفهرس صحيح
+            if (modelRow < 0 || modelRow >= model.getRowCount()) {
+                JOptionPane.showMessageDialog(this, "Invalid message selection", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String messageId = (String) model.getValueAt(modelRow, 4);
+
+            if (messageId == null || messageId.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Cannot archive: Message ID is missing", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // تأكيد من المستخدم
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to archive this message?",
+                    "Confirm Archive", JOptionPane.YES_NO_OPTION);
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            // إرسال أمر الأرشيف إلى السيرفر
+            boolean success = controller.archiveMessage(messageId.trim());
+
+            if (success) {
+                // إزالة الرسالة من الجدول
                 model.removeRow(modelRow);
-                messageContentArea.setText("Message moved to archive successfully");
+                messageContentArea.setText("Message archived successfully");
 
-                if (folderList.getSelectedValue().contains("Inbox")) {
+                // إذا كنا في Inbox، نقوم بتحديث القائمة
+                if (folderList.getSelectedValue() != null &&
+                        folderList.getSelectedValue().equals("Inbox")) {
                     loadCurrentFolderMessages();
                 }
+
+                JOptionPane.showMessageDialog(this,
+                        "Message archived successfully",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                logger.log("Message archived: " + messageId);
             } else {
-                JOptionPane.showMessageDialog(this, "Archive failed:\n" + response, "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Failed to archive message. Please try again.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            logger.log("ERROR: Array index out of bounds in archive: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Error: Invalid message selection. Please try selecting again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Failed", JOptionPane.ERROR_MESSAGE);
+            logger.log("ERROR archiving message: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Error: " + ex.getMessage(),
+                    "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void restoreSelectedMessage() {
         int viewRow = messagesTable.getSelectedRow();
-        if (viewRow == -1) return;
-
-        int modelRow = messagesTable.convertRowIndexToModel(viewRow);
-        DefaultTableModel model = (DefaultTableModel) messagesTable.getModel();
-        String messageId = (String) model.getValueAt(modelRow, 4);
+        if (viewRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a message first", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         try {
-            String response = controller.getTcpClient().sendCommand("RESTORE " + messageId.trim());
+            int modelRow = messagesTable.convertRowIndexToModel(viewRow);
+            DefaultTableModel model = (DefaultTableModel) messagesTable.getModel();
 
-            if (response.startsWith("250")) {
-                JOptionPane.showMessageDialog(this, "Message restored to inbox successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                model.removeRow(modelRow);
-                messageContentArea.setText("Restore successful");
-            } else {
-                JOptionPane.showMessageDialog(this, "Restore failed:\n" + response, "Error", JOptionPane.ERROR_MESSAGE);
+            if (modelRow < 0 || modelRow >= model.getRowCount()) {
+                JOptionPane.showMessageDialog(this, "Invalid message selection", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            String messageId = (String) model.getValueAt(modelRow, 4);
+
+            if (messageId == null || messageId.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Cannot restore: Message ID is missing", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // تأكيد من المستخدم
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to restore this message to inbox?",
+                    "Confirm Restore", JOptionPane.YES_NO_OPTION);
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            boolean success = controller.restoreMessage(messageId.trim());
+
+            if (success) {
+                model.removeRow(modelRow);
+                messageContentArea.setText("Message restored to inbox successfully");
+
+                // إذا كنا في Archive، نقوم بتحديث القائمة
+                if (folderList.getSelectedValue() != null &&
+                        folderList.getSelectedValue().equals("Archive")) {
+                    loadCurrentFolderMessages();
+                }
+
+                JOptionPane.showMessageDialog(this,
+                        "Message restored successfully",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                logger.log("Message restored: " + messageId);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Failed to restore message. Please try again.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            logger.log("ERROR: Array index out of bounds in restore: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Error: Invalid message selection. Please try selecting again.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Failed", JOptionPane.ERROR_MESSAGE);
+            logger.log("ERROR restoring message: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Error: " + ex.getMessage(),
+                    "Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
-
     private void refreshAllData() {
         if (controller == null || !controller.isConnected()) {
             JOptionPane.showMessageDialog(this, "Not connected to server!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -829,7 +989,7 @@ public class MainWindow extends JFrame {
     }
 
     private void searchMessages() {
-        String searchText = searchField.getText().trim();
+        String searchText = searchField.getText().trim().toLowerCase();
         if (!searchText.isEmpty()) {
             logger.log("Searching for: " + searchText);
 
@@ -837,10 +997,23 @@ public class MainWindow extends JFrame {
                     new TableRowSorter<>((DefaultTableModel) messagesTable.getModel());
             messagesTable.setRowSorter(sorter);
 
-            if (searchText.length() > 0) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
+            RowFilter<DefaultTableModel, Object> rowFilter = new RowFilter<DefaultTableModel, Object>() {
+                @Override
+                public boolean include(Entry<? extends DefaultTableModel, ? extends Object> entry) {
+                    String sender = entry.getStringValue(0).toLowerCase();
+                    String subject = entry.getStringValue(1).toLowerCase();
+
+                    return sender.contains(searchText) || subject.contains(searchText);
+                }
+            };
+
+            sorter.setRowFilter(rowFilter);
+
+            int resultCount = messagesTable.getRowCount();
+            if (resultCount > 0) {
+                statusLabel.setText("Search found " + resultCount + " messages");
             } else {
-                sorter.setRowFilter(null);
+                statusLabel.setText("No messages found matching: " + searchText);
             }
 
         } else {
@@ -848,6 +1021,7 @@ public class MainWindow extends JFrame {
                     new TableRowSorter<>((DefaultTableModel) messagesTable.getModel());
             messagesTable.setRowSorter(sorter);
             sorter.setRowFilter(null);
+            updateStatusBar();
         }
     }
 
@@ -886,7 +1060,7 @@ public class MainWindow extends JFrame {
         sendButton.setEnabled(false);
         sendButton.setText("Sending...");
 
-        resetIdleTimer();
+        resetActivityTimers();
 
         new Thread(() -> {
             try {
@@ -931,40 +1105,143 @@ public class MainWindow extends JFrame {
             }
         }).start();
     }
-
     private void exportConversation() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Export Conversation");
-        fileChooser.setSelectedFile(new File("mail_export.txt"));
 
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("=== MailLite Conversation Export ===\n");
-                writer.write("Exported on: " + new java.util.Date() + "\n");
-                writer.write("User: " + controller.getUsername() + "\n");
-                writer.write("=====================================\n\n");
+        // نسخ القيم إلى متغيرات final
+        final String folder = folderList.getSelectedValue() != null ? folderList.getSelectedValue() : "Unknown";
+        final String searchText = searchField.getText() != null ? searchField.getText().trim() : "";
 
-                List<Message> messages = getCurrentFolderMessages();
-                for (Message msg : messages) {
-                    writer.write("From: " + msg.getFrom() + "\n");
-                    writer.write("To: " + (msg.getTo() != null ? msg.getTo() : "Unknown") + "\n");
-                    writer.write("Subject: " + msg.getSubject() + "\n");
-                    writer.write("Date: " + new java.util.Date(msg.getTimestamp()) + "\n");
-                    writer.write("Body: " + (msg.getBody() != null ? msg.getBody() : "No content") + "\n");
-                    writer.write("-------------------------------------\n");
+        // إنشاء اسم الملف
+        String fileName;
+        Date now = new Date();
+
+        if (searchText != null && !searchText.isEmpty()) {
+            fileName = "search_" + searchText + "_" + new SimpleDateFormat("yyyyMMdd").format(now) + ".txt";
+        } else {
+            fileName = folder.toLowerCase() + "_export_" + new SimpleDateFormat("yyyyMMdd_HHmm").format(now) + ".txt";
+        }
+
+        fileChooser.setSelectedFile(new File(fileName));
+
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            // معالجة الملف
+            File finalExportFile;
+            if (selectedFile != null) {
+                String path = selectedFile.getAbsolutePath();
+                if (!path.toLowerCase().endsWith(".txt")) {
+                    finalExportFile = new File(path + ".txt");
+                } else {
+                    finalExportFile = selectedFile;
                 }
-
-                logger.log("Exported conversation to: " + file.getName());
-                JOptionPane.showMessageDialog(this,
-                        "Conversation exported successfully!\nFile: " + file.getName(),
-                        "Export Complete", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                logger.log("ERROR exporting conversation: " + e.getMessage());
-                JOptionPane.showMessageDialog(this,
-                        "Failed to export conversation: " + e.getMessage(),
-                        "Export Failed", JOptionPane.ERROR_MESSAGE);
+            } else {
+                return; // تم إلغاء العملية
             }
+
+            // استخدام متغير final للـ lambda
+            final File exportFileFinal = finalExportFile;
+
+            // تشغيل عملية التصدير في thread منفصل
+            new Thread(() -> {
+                performExport(exportFileFinal, folder, searchText);
+            }).start();
+        }
+    }
+    private void performExport(File file, String folder, String searchText) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+            // كتابة الـ Header
+            writer.write("=".repeat(60));
+            writer.newLine();
+            writer.write("                     MAILLITE CONVERSATION EXPORT                     ");
+            writer.newLine();
+            writer.write("=".repeat(60));
+            writer.newLine();
+            writer.newLine();
+
+            writer.write("Export Date  : " + new Date());
+            writer.newLine();
+            writer.write("User         : " + controller.getUsername());
+            writer.newLine();
+            writer.write("Folder       : " + folder);
+            writer.newLine();
+
+            if (searchText != null && !searchText.isEmpty()) {
+                writer.write("Search Query : " + searchText);
+                writer.newLine();
+            }
+
+            writer.write("=".repeat(60));
+            writer.newLine();
+            writer.newLine();
+
+            // جلب وتصدير الرسائل
+            List<Message> messages = getCurrentFolderMessages();
+            int exportedCount = 0;
+
+            for (Message msg : messages) {
+                if (msg != null && msg.getId() != null) {
+                    writer.write("-".repeat(60));
+                    writer.newLine();
+                    writer.write("Message ID    : " + msg.getId());
+                    writer.newLine();
+                    writer.write("From          : " + (msg.getFrom() != null ? msg.getFrom() : "Unknown"));
+                    writer.newLine();
+                    writer.write("To            : " + (msg.getTo() != null ? msg.getTo() : controller.getUsername()));
+                    writer.newLine();
+                    writer.write("Subject       : " + (msg.getSubject() != null ? msg.getSubject() : "No Subject"));
+                    writer.newLine();
+                    writer.write("Date          : " + new Date(msg.getTimestamp()));
+                    writer.newLine();
+                    writer.newLine();
+
+                    // Body
+                    writer.write("Body:");
+                    writer.newLine();
+                    String body = "(No content available)";
+                    try {
+                        Message fullMessage = controller.getMessage(msg.getId());
+                        if (fullMessage != null && fullMessage.getBody() != null) {
+                            body = fullMessage.getBody();
+                        }
+                    } catch (Exception e) {
+                        body = "(Error loading message content)";
+                    }
+                    writer.write(body);
+                    writer.newLine();
+                    writer.newLine();
+
+                    exportedCount++;
+                }
+            }
+
+            writer.write("=".repeat(60));
+            writer.newLine();
+            writer.write("Total messages exported: " + exportedCount);
+            writer.newLine();
+            writer.write("=".repeat(60));
+
+            // رسالة النجاح
+            final int finalCount = exportedCount;
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(MainWindow.this,
+                        "Export successful!\nExported " + finalCount + " messages to:\n" + file.getAbsolutePath(),
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+            });
+
+            logger.log("Successfully exported " + exportedCount + " messages to " + file.getName());
+
+        } catch (Exception e) {
+            logger.log("Export error: " + e.getMessage());
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(MainWindow.this,
+                        "Export failed: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            });
         }
     }
 
@@ -1015,23 +1292,49 @@ public class MainWindow extends JFrame {
         messagesTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
-                                                           boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                                                           boolean isSelected, boolean hasFocus,
+                                                           int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value,
+                        isSelected, hasFocus, row, column);
 
-                String status = (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 3);
+                try {
+                    int modelRow = table.convertRowIndexToModel(row);
+                    String sender = (String) table.getModel().getValueAt(modelRow, 0);
+                    String status = (String) table.getModel().getValueAt(modelRow, 3);
+                    String currentUser = controller.getUsername();
 
-                if (isSelected) {
-                    c.setBackground(new Color(100, 149, 237));
-                    c.setForeground(Color.WHITE);
-                } else {
-                    if ("New".equals(status)) {
-                        c.setBackground(new Color(255, 255, 180));
+                    if (isSelected) {
+                        c.setBackground(new Color(100, 149, 237));
+                        c.setForeground(Color.WHITE);
+                    } else {
+                        if (sender != null && !sender.equals(currentUser)) {
+                            if ("New".equals(status)) {
+                                c.setBackground(new Color(255, 230, 230));
+                            } else {
+                                c.setBackground(new Color(255, 240, 240));
+                            }
+                        } else {
+                            if ("New".equals(status)) {
+                                c.setBackground(new Color(230, 255, 230));
+                            } else {
+                                c.setBackground(new Color(240, 255, 240));
+                            }
+                        }
                         c.setForeground(Color.BLACK);
-                        setFont(getFont().deriveFont(Font.BOLD));
+
+                        if ("New".equals(status)) {
+                            setFont(getFont().deriveFont(Font.BOLD));
+                        } else {
+                            setFont(getFont().deriveFont(Font.PLAIN));
+                        }
+                    }
+                } catch (Exception e) {
+                    if (isSelected) {
+                        c.setBackground(new Color(100, 149, 237));
+                        c.setForeground(Color.WHITE);
                     } else {
                         c.setBackground(Color.WHITE);
                         c.setForeground(Color.BLACK);
-                        setFont(getFont().deriveFont(Font.PLAIN));
                     }
                 }
                 return c;
@@ -1041,11 +1344,14 @@ public class MainWindow extends JFrame {
 
     @Override
     public void dispose() {
-        if (idleTimer != null) {
-            idleTimer.stop();
+        if (autoAwayTimer != null) {
+            autoAwayTimer.stop();
         }
         if (autoRefreshTimer != null) {
             autoRefreshTimer.stop();
+        }
+        if (statusUpdateTimer != null) {
+            statusUpdateTimer.stop();
         }
 
         saveReadMessages();

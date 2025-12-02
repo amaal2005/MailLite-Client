@@ -1,12 +1,15 @@
 package client.gui;
 
 import client.controller.ClientController;
+import client.utils.LastLoginManager;
 import client.utils.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoginWindow extends JFrame {
     private JTextField serverHostField;
@@ -15,17 +18,20 @@ public class LoginWindow extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JComboBox<String> udpPortComboBox;
+    private JLabel lastLoginLabel;
     private Logger logger;
+    private LastLoginManager lastLoginManager;
 
     public LoginWindow() {
         this.logger = new Logger();
+        this.lastLoginManager = new LastLoginManager();
         initializeGUI();
     }
 
     private void initializeGUI() {
         setTitle("MailLite - Client Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(450, 400);
+        setSize(450, 420);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -47,11 +53,15 @@ public class LoginWindow extends JFrame {
 
         loginButton = new JButton("Login to Mail Server");
         styleLoginButton();
+
+        lastLoginLabel = new JLabel("", SwingConstants.CENTER);
+        lastLoginLabel.setFont(new Font("Arial", Font.ITALIC, 11));
+        lastLoginLabel.setForeground(Color.GRAY);
     }
 
     private void styleLoginButton() {
         loginButton.setBackground(new Color(70, 130, 180));
-        loginButton.setForeground(Color.BLACK);
+        loginButton.setForeground(Color.black);
         loginButton.setFont(new Font("Arial", Font.BOLD, 14));
         loginButton.setFocusPainted(false);
         loginButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -90,6 +100,12 @@ public class LoginWindow extends JFrame {
         addFormField(formPanel, gbc, 4, "Password:", passwordField);
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
+
+        JPanel lastLoginPanel = new JPanel(new BorderLayout());
+        lastLoginPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        lastLoginPanel.add(lastLoginLabel, BorderLayout.CENTER);
+        mainPanel.add(lastLoginPanel, BorderLayout.SOUTH);
+
         mainPanel.add(loginButton, BorderLayout.SOUTH);
 
         add(mainPanel);
@@ -120,6 +136,27 @@ public class LoginWindow extends JFrame {
                 performLogin();
             }
         });
+
+        usernameField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateLastLoginInfo();
+            }
+        });
+    }
+
+    private void updateLastLoginInfo() {
+        String username = usernameField.getText().trim();
+        if (!username.isEmpty()) {
+            String lastLogin = lastLoginManager.getLastLogin(username);
+            if (lastLogin != null) {
+                lastLoginLabel.setText("Last login: " + lastLogin);
+            } else {
+                lastLoginLabel.setText("First time login for " + username);
+            }
+        } else {
+            lastLoginLabel.setText("");
+        }
     }
 
     private void performLogin() {
@@ -146,6 +183,8 @@ public class LoginWindow extends JFrame {
             boolean success = controller.login(host, tcpPort, username, password, udpPort);
 
             if (success) {
+                lastLoginManager.saveLastLogin(username);
+
                 logger.log("Login successful - Opening main window");
                 showSuccess("Login successful!");
 
