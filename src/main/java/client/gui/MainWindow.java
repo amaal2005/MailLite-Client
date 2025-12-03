@@ -197,10 +197,8 @@ public class MainWindow extends JFrame {
         setSize(1200, 800);
         setLocationRelativeTo(null);
 
-        // إنشاء القائمة العلوية
         JMenuBar menuBar = new JMenuBar();
 
-        // قائمة File
         JMenu fileMenu = new JMenu("File");
         JMenuItem exportItem = new JMenuItem("Export Conversation...");
         JMenuItem logoutItem = new JMenuItem("Logout");
@@ -212,17 +210,14 @@ public class MainWindow extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(logoutItem);
 
-        // قائمة View
         JMenu viewMenu = new JMenu("View");
         JMenuItem refreshItem = new JMenuItem("Refresh");
         refreshItem.addActionListener(e -> refreshAllData());
         viewMenu.add(refreshItem);
 
-        // إضافة القوائم إلى الـ menu bar
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
 
-        // ⭐⭐ تعيين القائمة للنافذة ⭐⭐
         setJMenuBar(menuBar);
 
         createComponents();
@@ -461,16 +456,15 @@ public class MainWindow extends JFrame {
         searchButton.setBackground(new Color(52, 100, 100));
         searchButton.addActionListener(e -> searchMessages());
 
-        // ⭐⭐⭐ زر Export جديد ⭐⭐⭐
         JButton exportButton = new JButton("Export");
-        exportButton.setBackground(new Color(70, 130, 180)); // لون أزرق
+        exportButton.setBackground(new Color(70, 130, 180));
         exportButton.setForeground(Color.WHITE);
         exportButton.setFont(new Font("Arial", Font.BOLD, 12));
         exportButton.addActionListener(e -> exportConversation());
         exportButton.setToolTipText("Export all messages to file");
 
         rightPanel.add(searchButton);
-        rightPanel.add(exportButton); // ⭐⭐⭐ أضف الزر هنا
+        rightPanel.add(exportButton);
         rightPanel.add(logoutBtn);
 
         searchPanel.add(leftPanel, BorderLayout.WEST);
@@ -816,7 +810,6 @@ public class MainWindow extends JFrame {
     }
 
     private void archiveSelectedMessage() {
-        // الحصول على الصف المحدد في عرض الجدول
         int viewRow = messagesTable.getSelectedRow();
         if (viewRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a message first", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -824,11 +817,9 @@ public class MainWindow extends JFrame {
         }
 
         try {
-            // تحويل فهرس العرض إلى فهرس الموديل
             int modelRow = messagesTable.convertRowIndexToModel(viewRow);
             DefaultTableModel model = (DefaultTableModel) messagesTable.getModel();
 
-            // التأكد من أن الفهرس صحيح
             if (modelRow < 0 || modelRow >= model.getRowCount()) {
                 JOptionPane.showMessageDialog(this, "Invalid message selection", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -841,7 +832,6 @@ public class MainWindow extends JFrame {
                 return;
             }
 
-            // تأكيد من المستخدم
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to archive this message?",
                     "Confirm Archive", JOptionPane.YES_NO_OPTION);
@@ -850,15 +840,12 @@ public class MainWindow extends JFrame {
                 return;
             }
 
-            // إرسال أمر الأرشيف إلى السيرفر
             boolean success = controller.archiveMessage(messageId.trim());
 
             if (success) {
-                // إزالة الرسالة من الجدول
                 model.removeRow(modelRow);
                 messageContentArea.setText("Message archived successfully");
 
-                // إذا كنا في Inbox، نقوم بتحديث القائمة
                 if (folderList.getSelectedValue() != null &&
                         folderList.getSelectedValue().equals("Inbox")) {
                     loadCurrentFolderMessages();
@@ -911,7 +898,6 @@ public class MainWindow extends JFrame {
                 return;
             }
 
-            // تأكيد من المستخدم
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to restore this message to inbox?",
                     "Confirm Restore", JOptionPane.YES_NO_OPTION);
@@ -926,7 +912,6 @@ public class MainWindow extends JFrame {
                 model.removeRow(modelRow);
                 messageContentArea.setText("Message restored to inbox successfully");
 
-                // إذا كنا في Archive، نقوم بتحديث القائمة
                 if (folderList.getSelectedValue() != null &&
                         folderList.getSelectedValue().equals("Archive")) {
                     loadCurrentFolderMessages();
@@ -1109,11 +1094,9 @@ public class MainWindow extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Export Conversation");
 
-        // نسخ القيم إلى متغيرات final
         final String folder = folderList.getSelectedValue() != null ? folderList.getSelectedValue() : "Unknown";
         final String searchText = searchField.getText() != null ? searchField.getText().trim() : "";
 
-        // إنشاء اسم الملف
         String fileName;
         Date now = new Date();
 
@@ -1129,7 +1112,6 @@ public class MainWindow extends JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
 
-            // معالجة الملف
             File finalExportFile;
             if (selectedFile != null) {
                 String path = selectedFile.getAbsolutePath();
@@ -1139,13 +1121,11 @@ public class MainWindow extends JFrame {
                     finalExportFile = selectedFile;
                 }
             } else {
-                return; // تم إلغاء العملية
+                return;
             }
 
-            // استخدام متغير final للـ lambda
             final File exportFileFinal = finalExportFile;
 
-            // تشغيل عملية التصدير في thread منفصل
             new Thread(() -> {
                 performExport(exportFileFinal, folder, searchText);
             }).start();
@@ -1154,7 +1134,6 @@ public class MainWindow extends JFrame {
     private void performExport(File file, String folder, String searchText) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
-            // كتابة الـ Header
             writer.write("=".repeat(60));
             writer.newLine();
             writer.write("                     MAILLITE CONVERSATION EXPORT                     ");
@@ -1179,7 +1158,6 @@ public class MainWindow extends JFrame {
             writer.newLine();
             writer.newLine();
 
-            // جلب وتصدير الرسائل
             List<Message> messages = getCurrentFolderMessages();
             int exportedCount = 0;
 
@@ -1225,7 +1203,6 @@ public class MainWindow extends JFrame {
             writer.newLine();
             writer.write("=".repeat(60));
 
-            // رسالة النجاح
             final int finalCount = exportedCount;
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(MainWindow.this,
